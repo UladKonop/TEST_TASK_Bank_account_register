@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class AccountsController < ApplicationController
-  before_action :set_account, only: %i[show update destroy]
+  before_action :set_account, only: %i[show destroy]
 
   def show
     render json: @account
