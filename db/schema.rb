@@ -10,37 +10,38 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20_210_717_124_806) do
+ActiveRecord::Schema.define(version: 2021_07_17_124806) do
+
   # These are extensions that must be enabled in order to support this database
-  enable_extension 'plpgsql'
+  enable_extension "plpgsql"
 
-  create_table 'accounts', force: :cascade do |t|
-    t.bigint 'user_id', null: false
-    t.string 'currency', limit: 10
-    t.decimal 'amount'
-    t.datetime 'created_at', precision: 6, null: false
-    t.datetime 'updated_at', precision: 6, null: false
-    t.index ['user_id'], name: 'index_accounts_on_user_id'
+  create_table "accounts", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "currency", limit: 10
+    t.decimal "amount"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_accounts_on_user_id"
   end
 
-  create_table 'tags', force: :cascade do |t|
-    t.bigint 'user_id', null: false
-    t.string 'name'
-    t.datetime 'created_at', precision: 6, null: false
-    t.datetime 'updated_at', precision: 6, null: false
-    t.index ['user_id'], name: 'index_tags_on_user_id'
+  create_table "tags", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_tags_on_user_id"
   end
 
-  create_table 'users', force: :cascade do |t|
-    t.string 'first_name'
-    t.string 'last_name'
-    t.string 'patronimic'
-    t.string 'identification_number'
-    t.datetime 'created_at', precision: 6, null: false
-    t.datetime 'updated_at', precision: 6, null: false
-    t.index ['identification_number'], name: 'index_users_on_identification_number', unique: true
+  create_table "users", force: :cascade do |t|
+    t.string "first_name"
+    t.string "last_name"
+    t.string "patronimic"
+    t.string "identification_number"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["identification_number"], name: "index_users_on_identification_number", unique: true
   end
 
-  add_foreign_key 'accounts', 'users'
-  add_foreign_key 'tags', 'users'
+  add_foreign_key "accounts", "users"
+  add_foreign_key "tags", "users"
 end
