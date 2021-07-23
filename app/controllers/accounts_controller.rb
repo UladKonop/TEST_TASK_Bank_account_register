@@ -9,8 +9,14 @@ class AccountsController < ApplicationController
 
   def create
     user = User.find_by(identification_number: params[:identification_number])
+    
+    account = user.accounts.new(account_params)
 
-    user.accounts.create(account_params)
+    if account.save
+      render json: account, status: :created, location: account
+    else
+      render json: account.errors, status: :unprocessable_entity
+    end
   end
 
   def destroy
