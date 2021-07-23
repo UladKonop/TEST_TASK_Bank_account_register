@@ -5,11 +5,27 @@ class Account < ApplicationRecord
 
   before_validation :set_amount
 
-  validates :currency, presence: true, uniqueness: true
+  validates :currency, presence: true
   validates :amount, numericality: { greater_than_or_equal_to: 0 }
 
-  def deposit(received_amount)
-    self.amount += received_amount
+  def deposit(amount)
+    self.amount += amount
+    true
+  end
+
+  def deposit!(amount)
+    deposit(amount)
+    save!    
+  end
+
+  def withdraw(amount)
+    self.amount -= amount
+    true
+  end
+
+  def withdraw!(amount)
+    withdraw(amount)
+    save!
   end
 
   private
