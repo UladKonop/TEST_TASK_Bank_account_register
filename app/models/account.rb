@@ -7,6 +7,7 @@ class Account < ApplicationRecord
 
   validates :currency, presence: true
   validates :amount, numericality: { greater_than_or_equal_to: 0 }
+  validate :check_currency_uniqueness, on: :create
 
   def deposit(amount)
     self.amount += amount
@@ -32,5 +33,9 @@ class Account < ApplicationRecord
 
   def set_amount
     self.amount ||= 0
+  end
+
+  def check_currency_uniqueness
+    errors.add(:currency, 'currency must be unique') if user.accounts.find_by(currency: currency)
   end
 end
