@@ -40,7 +40,9 @@
 
 ## Взаимодействие с приложением
 
-Для взаимодействия с приложением можно использовать программу cURL.
+Для взаимодействия с приложением можно использовать программу cURL:
+на локальном сервере: http://localhost:3000
+на Heroku: https://bankregister.herokuapp.com
 
 ### Создание нового пользователя
 
@@ -76,4 +78,4 @@ curl -d '{"account":{"currency":"rub","amount":"0.1"},"recipient_identification_
 
 Ответ в случае неудачи:
 
-{"error":"Validation failed: Amount must be greater than or equal to 0"}
+{"error":"Validation failed: Amount must be greater than or equal to 0"} или {"recipient":["must exist"]}
