@@ -15,6 +15,7 @@ class TransactionsController < ApplicationController
     render_error(account.errors) and return if account.invalid?
 
     if account.save
+      create_transaction(account, deposit: true)
       render json: account, status: :created, location: account
     else
       render json: account.errors, status: :unprocessable_entity
@@ -42,7 +43,8 @@ class TransactionsController < ApplicationController
 
       sender_account.withdraw!(amount)
       recepient_account.deposit!(amount)
-
+      create_transaction(sender_account, deposit: false)
+      create_transaction(recepient_account, deposit: true)
       render json: { sender_account: sender_account, recepient_account: recepient_account },
              status: :created
 
@@ -59,5 +61,9 @@ class TransactionsController < ApplicationController
 
   def render_error(error, status: :unprocessable_entity)
     render(json: error, status: status)
+  end
+
+  def create_transaction(account, deposit:)
+    Transaction.create(amount: account_params[:amount], deposit: deposit, account: account)
   end
 end
