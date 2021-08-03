@@ -11,12 +11,21 @@ RSpec.describe '/transactions', type: :request do
   describe 'POST /deposit' do
     context 'success' do
       context 'when account exists' do
-        it 'deposit amount on account' do
+        it 'deposits amount on account' do
           expect do
             post deposit_transaction_url(user.identification_number),
                  params: { account: { currency: currency, amount: amount } }, as: :json
             account.reload
           end.to change(account, :amount).by(amount)
+        end
+
+        it 'creates transaction' do
+          expect do
+            account
+            post deposit_transaction_url(user.identification_number),
+                 params: { account: { currency: currency, amount: amount } }, as: :json
+            account.reload
+          end.to change(Transaction, :count).by(1)
         end
 
         it 'renders a JSON response with account' do
