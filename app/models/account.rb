@@ -2,6 +2,7 @@
 
 class Account < ApplicationRecord
   belongs_to :user
+  has_many :transactions
 
   before_validation :set_amount
 
