@@ -41,41 +41,45 @@
 ## Взаимодействие с приложением
 
 Для взаимодействия с приложением можно использовать программу cURL:
-на локальном сервере: http://localhost:3000
-на Heroku: https://bankregister.herokuapp.com
+ * на локальном сервере: http://localhost:3000
+ * на Heroku: https://bankregister.herokuapp.com
 
 ### Создание нового пользователя
 
-curl -d '{"first_name":"1","last_name":"2","patronimic":"3","identification_number":"pp1111222"}' -H "Content-Type: application/json" -X POST http://localhost:3000/users
+    curl -d '{"first_name":"1","last_name":"2","patronimic":"3","identification_number":"12345678", "tags_attributes":[{"name":"foo"}]}' -H "Content-Type: application/json" -X POST http://localhost:3000/users
 
 В ответ получим либо словарь с новым юзером: 
 
-{"id":5,"first_name":"1","last_name":"2","patronimic":"3","identification_number":"pp1111222","created_at":"2021-07-23T09:10:05.104Z","updated_at":"2021-07-23T09:10:05.104Z"}
+    {"id":5,"first_name":"1","last_name":"2","patronimic":"3","identification_number":"pp1111222","created_at":"2021-07-23T09:10:05.104Z","updated_at":"2021-07-23T09:10:05.104Z"}
 
 Либо словарь с сообщением, что пользователь с таким идентификационным номером уже существует:
 
-{"identification_number":["has already been taken"]}
+    {"identification_number":["has already been taken"]}
 
 ### Открытие счета для пользователя по идентификационному номеру пользователя
 
-curl -d '{"account":{"currency":"pln"}, "identification_number":"pp1111222"}' -H "Content-Type: application/json" -X POST http://127.0.0.1:3000/accounts/
+    curl -d '{"account":{"currency":"pln"}, "identification_number":"12345678"}' -H "Content-Type: application/json" -X POST http://127.0.0.1:3000/accounts/
 
 Ответ:
 
-{"id":9,"user_id":5,"currency":"pln","amount":"0.0","created_at":"2021-07-23T11:49:22.255Z","updated_at":"2021-07-23T11:49:22.255Z"}
+    {"id":9,"user_id":5,"currency":"pln","amount":"0.0","created_at":"2021-07-23T11:49:22.255Z","updated_at":"2021-07-23T11:49:22.255Z"}
 
 ### Пополнение счета по идентификационному номеру пользователя и валюте на определенную сумму
 
-curl -d '{"account":{"currency":"pln","amount":"0.3"}}' -H "Content-Type: application/json" -X POST http://127.0.0.1:3000/transactions/1213a1aa/deposit
+    curl -d '{"account":{"currency":"pln","amount":"0.3"}}' -H "Content-Type: application/json" -X POST http://127.0.0.1:3000/transactions/12345678/deposit
 
 Ответ: 
 
-{"id":8,"user_id":4,"currency":"pln","amount":"0.6","created_at":"2021-07-23T09:48:06.597Z","updated_at":"2021-07-23T09:48:06.597Z"}
+    {"id":8,"user_id":4,"currency":"pln","amount":"0.6","created_at":"2021-07-23T09:48:06.597Z","updated_at":"2021-07-23T09:48:06.597Z"}
 
 ### Перевод между счетами по идентификационному номеру пользователя-отправителя, валюте и идентификационному номеру получателя
 
-curl -d '{"account":{"currency":"rub","amount":"0.1"},"recipient_identification_number":"123aa2a","sender_identification_number":"1213a1aa"}' -H "Content-Type: application/json" -X POST http://127.0.0.1:3000/transactions/transfer 
+    curl -d '{"account":{"currency":"rub","amount":"0.1"},"recipient_identification_number":"123aa2a","sender_identification_number":"1213a1aa"}' -H "Content-Type: application/json" -X POST http://127.0.0.1:3000/transactions/transfer 
 
 Ответ в случае неудачи:
 
-{"error":"Validation failed: Amount must be greater than or equal to 0"} или {"recipient":["must exist"]}
+    {"error":"Validation failed: Amount must be greater than or equal to 0"} или {"recipient":["must exist"]}
+
+### Отчет "О сумме пополнений за период времени по-валютно" свозможностью фильтрации по пользователям.
+
+    curl -d '{"account":{"user_ids":"6","date_from":"2021-01-01", "date_to":"2021-12-01", "report_type":"deposits_report"}}' -H "Content-Type: application/json" -X GET http://127.0.0.1:3000/reports
