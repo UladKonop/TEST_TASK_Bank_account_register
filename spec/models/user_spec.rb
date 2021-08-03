@@ -3,9 +3,15 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
-  user do
-    described_class.new(first_name: 'first_name', last_name: 'last_name', patronimic: 'patronimic',
-                        identification_number: 1)
+  let(:tags_attributes){[{name: 'foo'}]}
+  let(:user) do
+    described_class.new(
+      first_name: 'first_name', 
+      last_name: 'last_name', 
+      patronimic: 'patronimic',
+      identification_number: 1, 
+      tags_attributes: tags_attributes
+    )
   end
 
   describe 'Validations' do
