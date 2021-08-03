@@ -3,19 +3,33 @@
 class ReportsManager
   attr_reader :params
 
+  def call
+    case params[:report_type]
+    when 'deposits_report'
+      [deposits_report, nil]
+    when 'measures_report'
+      [measures_report, nil]
+    when 'total_amount_report'
+      [total_amount_report, nil]
+    else
+      [nil, { errror: 'unknown report type' }]
+    end
+  end
+
+  private
+
   def initialize(params)
     @params = params
   end
 
   def deposits_report
-    scoped_transactions.where(deposit: true).pluck('accounts.currency', 'amount').group_by(&:first)
+    scoped_transactions.where(deposit: true).pluck('accounts.currency',
+                                                   'amount').group_by(&:first)
   end
 
   def measures_report; end
 
   def total_amount_report; end
-
-  private
 
   def scoped_transactions
     @scoped_transactions ||=
