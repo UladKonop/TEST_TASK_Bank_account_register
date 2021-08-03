@@ -4,12 +4,21 @@ require 'rails_helper'
 
 RSpec.describe '/users', type: :request do
   let(:valid_attributes) do
-    Hash[first_name: 'first_name', last_name: 'last_name', patronimic: 'patronimic',
-         identification_number: 1]
+    {
+      first_name: 'first_name',
+      last_name: 'last_name', 
+      patronimic: 'patronimic',
+      identification_number: 1,
+      tags_attributes: [{name: 'foo'}]
+    }
   end
 
   let(:invalid_attributes) do
-    Hash[name: 'first_name', name2: 'last_name', identification_number: '123a1aa']
+    {
+      name: 'first_name', 
+      name2: 'last_name', 
+      identification_number: '123a1aa'
+    }
   end
 
   describe 'GET /index' do

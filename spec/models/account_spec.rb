@@ -8,7 +8,8 @@ RSpec.describe Account, type: :model do
       first_name: 'first_name',
       last_name: 'last_name',
       patronimic: 'patronimic',
-      identification_number: 1
+      identification_number: 1,
+      tags_attributes: [{name: 'foo'}]
     }
   end
 
