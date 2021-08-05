@@ -3,7 +3,7 @@
 class TransactionsController < ApplicationController
   def deposit
     user = User.find_by(identification_number: params[:identification_number])
-    return render_error({ "user": ['must exist'] }) if user.nil?
+    return render_error(user: ['must exist']) if user.nil?
 
     account = user.accounts.find_by(currency: account_params[:currency])
     if account
