@@ -5,9 +5,9 @@ class ReportsController < ApplicationController
     report, errors = ReportsManager.new(report_params).call
 
     if report.present?
-      render report
+      render json: report, status: :created
     else
-      render errors
+      render json: errors, status: :unprocessable_entity
     end
   end
 
