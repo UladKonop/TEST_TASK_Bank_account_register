@@ -24,13 +24,13 @@ class TransactionsController < ApplicationController
 
   def transfer
     sender = User.find_by(identification_number: params[:sender_identification_number])
-    render_error({ "sender": ['must exist'] }) and return if sender.nil?
+    render_error(sender: ['must exist']) and return if sender.nil?
 
     recipient = User.find_by(identification_number: params[:recepient_identification_number])
-    render_error({ "recipient": ['must exist'] }) and return if recipient.nil?
+    render_error(recipient: ['must exist']) and return if recipient.nil?
 
     sender_account = sender.accounts.find_by(currency: account_params[:currency])
-    render_error({ "sender": ['must exist'] }) and return if sender.nil?
+    render_error(sender_account: ['must exist']) and return if sender.nil?
 
     Account.transaction do
       amount = account_params[:amount].to_f
