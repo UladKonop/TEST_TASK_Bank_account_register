@@ -83,3 +83,11 @@
 ### Отчет "О сумме пополнений за период времени по-валютно" свозможностью фильтрации по пользователям.
 
     curl -d '{"account":{"user_ids":"6","date_from":"2021-01-01", "date_to":"2021-12-01", "report_type":"deposits_report"}}' -H "Content-Type: application/json" -X GET http://127.0.0.1:3000/reports
+
+###  Отчет "Средняя, максимальная и минимальная сумма переводов по тегам пользователей за период времени" с возможностью фильтрации по тегам.
+
+    curl -d '{"account":{"user_ids":"6","tags":"foo","date_from":"2021-01-01", "date_to":"2021-12-01", "report_type":"measures_report"}}' -H "Content-Type: application/json" -X GET http://127.0.0.1:3000/reports
+
+### Отчет "Сумма всех счетов на текущий момент времени повалютно" с фильтрацией по тегам пользователей.
+
+    curl -d '{"account":{"user_ids":"6","tags":"foo","date_from":"2021-01-01", "date_to":"2021-12-01", "report_type":"total_amount_report"}}' -H "Content-Type: application/json" -X GET http://127.0.0.1:3000/reports
