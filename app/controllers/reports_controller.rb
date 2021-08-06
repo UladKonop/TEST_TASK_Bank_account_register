@@ -4,9 +4,9 @@ class ReportsController < ApplicationController
   def index
     report, errors = ReportsManager.new(report_params).call
 
-    if report.present?
+    if errors.blank?
       render json: report, status: :created
-    else
+    else 
       render json: errors, status: :unprocessable_entity
     end
   end
@@ -15,10 +15,11 @@ class ReportsController < ApplicationController
 
   def report_params
     params.require(:account).permit(
-      :user_ids,
+      :report_type,
       :date_from,
       :date_to,
-      :report_type
+      user_ids:[],
+      tags:[],
     )
   end
 end
